@@ -35,7 +35,7 @@ export default class TimerForm extends React.Component {
   render() {
     const {id, onFormClose} = this.props;
     const {title, project} = this.state;
-
+    console.log("Props", this.props)
     const submitText = id ? 'Update' : 'Create';
 
     return(

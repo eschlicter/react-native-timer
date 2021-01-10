@@ -33,6 +33,23 @@ export default class App extends React.Component {
       timers: [newTimer(timer), ...timers]
     })
   }
+
+  handleFormSubmit = attrs => {
+    const {timers} = this.state;
+
+    this.setState({
+      timers: timers.map(timer => {
+        if (timer.id === attrs.id){
+          const {title, project} = attrs;
+
+          return{
+            ...timer, title, project
+          }
+        }
+        return timer;
+      })
+    })
+  }
   render(){
     const {timers} = this.state;
     return (
@@ -44,7 +61,7 @@ export default class App extends React.Component {
           <ToggleableTimerForm  onFormSubmit={this.handleCreateFormSubmit}/>
           {timers.map(
             ({title, project, id, elapsed, isRunning}) => (
-              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} />
+              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} onFormSubmit={this.handleFormSubmit}/>
             )
           )}
         </ScrollView>
