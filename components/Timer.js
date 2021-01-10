@@ -5,11 +5,35 @@ import { millisecondsToHuman } from '../utils/TimerUtils';
 import TimerButton from './TimerButton';
 
 export default class Timer extends React.Component {
-handleDeletePress = () => {
-  const {id, onDeletePress} = this.props;
 
-  onDeletePress(id)
-}
+  handleDeletePress = () => {
+    const {id, onDeletePress} = this.props;
+    onDeletePress(id)
+  }
+
+  handleStartPress = () => {
+    const {id, onStartPress} = this.props;
+    onStartPress(id);
+  }
+
+  handleStopPress = () => {
+    const {id, onStopPress} = this.props;
+    onStopPress(id);
+  }
+
+  renderActionButton(){
+    const {isRunning} = this.props;
+
+    if (isRunning){
+      return (
+        <TimerButton color='red' title='Stop' onPress={this.handleStopPress} />
+      )
+    }
+    return (
+      <TimerButton color='green' title='Start' onPress={this.handleStartPress} />
+    )
+  }
+
   render(){
    const { title, project, elapsed, onEditPress } = this.props;
    const elapsedString = millisecondsToHuman(elapsed);
@@ -23,7 +47,8 @@ handleDeletePress = () => {
         <TimerButton color="blue" small title="Edit" onPress={onEditPress}/>
         <TimerButton color="blue" small title="Remove" onPress={this.handleDeletePress}/>
       </View>
-      <TimerButton color="#21BA45" title="Start" />
+      {/* <TimerButton color="#21BA45" title="Start" /> */}
+      {this.renderActionButton()}
     </View>
   );
   }
