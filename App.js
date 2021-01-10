@@ -79,6 +79,25 @@ export default class App extends React.Component {
       timers: this.state.timers.filter(timer => timer.id !== timerId)
     })
   }
+
+  toggleTimer = timerId => {
+    this.setState(prevState => {
+      const {timers} = prevState;
+      return {
+        timers: timers.map(timer => {
+          const {id, isRunning} = timer;
+
+          if (id == timerId){
+            return{
+              ...timer, 
+              isRunning: !isRunning
+            };
+          }
+          return timer;
+        })
+      }
+    })
+  }
   render(){
     const {timers} = this.state;
     return (
@@ -90,7 +109,7 @@ export default class App extends React.Component {
           <ToggleableTimerForm  onFormSubmit={this.handleCreateFormSubmit}/>
           {timers.map(
             ({title, project, id, elapsed, isRunning}) => (
-              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} onFormSubmit={this.handleFormSubmit} onDeletePress={this.handleDeletePress}/>
+              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} onFormSubmit={this.handleFormSubmit} onDeletePress={this.handleDeletePress} onStartPress={this.toggleTimer} onStopPress={this.toggleTimer}/>
             )
           )}
         </ScrollView>
