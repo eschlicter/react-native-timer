@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TimePickerAndroid } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
 import {newTimer} from './utils/TimerUtils'
 
@@ -50,6 +50,12 @@ export default class App extends React.Component {
       })
     })
   }
+
+  handleDeletePress = timerId => {
+    this.setState({
+      timers: this.state.timers.filter(timer => timer.id !== timerId)
+    })
+  }
   render(){
     const {timers} = this.state;
     return (
@@ -61,7 +67,7 @@ export default class App extends React.Component {
           <ToggleableTimerForm  onFormSubmit={this.handleCreateFormSubmit}/>
           {timers.map(
             ({title, project, id, elapsed, isRunning}) => (
-              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} onFormSubmit={this.handleFormSubmit}/>
+              <EditableTimer key={id} id={id} title={title} project={project} elapsed={elapsed} isRunning={isRunning} onFormSubmit={this.handleFormSubmit} onDeletePress={this.handleDeletePress}/>
             )
           )}
         </ScrollView>
